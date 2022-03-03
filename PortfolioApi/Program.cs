@@ -1,8 +1,11 @@
 using Microsoft.OpenApi.Models;
+using PortfolioApi;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddDbContext<ImageDb>(options => options.UseInMemoryDatabase("items"));
 builder.Services.AddSwaggerGen(c =>
 {
      c.SwaggerDoc("v1", new OpenApiInfo {
@@ -18,6 +21,26 @@ app.UseSwaggerUI(c =>
    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Images API V1");
 });
 
-app.MapGet("/", () => "Hello World!");
+app.MapGet("/", () => "Hello world or whatever, it's working alright?");
+app.MapGet("/images", async (ImageDb db) => await db.Images.ToListAsync());
+
+app.MapPost("/images", async (ImageDb db, Image image) =>
+{
+    await db.Images.AddAsync(image);
+    await db.SaveChangesAsync();
+    return Results.Created($"/images/{image.Id}", image);
+});
+
+app.MapDelete("/images/{id}", async (ImageDb db, int id) =>
+{
+  var image = await db.Images.FindAsync(id);
+  if (image is null)
+  {
+    return Results.NotFound();
+  }
+  db.Images.Remove(image);
+  await db.SaveChangesAsync();
+  return Results.Ok();
+});
 
 app.Run();

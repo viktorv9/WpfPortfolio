@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\vgver\\IdeaProjects\\WpfPortfolio\\PortfolioApi\\PortfolioApi.csproj": {}
+    "F:\\GitHub-Reps\\WpfPortfolio\\PortfolioApi\\PortfolioApi.csproj": {}
   },
   "projects": {
-    "C:\\Users\\vgver\\IdeaProjects\\WpfPortfolio\\PortfolioApi\\PortfolioApi.csproj": {
+    "F:\\GitHub-Reps\\WpfPortfolio\\PortfolioApi\\PortfolioApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\vgver\\IdeaProjects\\WpfPortfolio\\PortfolioApi\\PortfolioApi.csproj",
+        "projectUniqueName": "F:\\GitHub-Reps\\WpfPortfolio\\PortfolioApi\\PortfolioApi.csproj",
         "projectName": "PortfolioApi",
-        "projectPath": "C:\\Users\\vgver\\IdeaProjects\\WpfPortfolio\\PortfolioApi\\PortfolioApi.csproj",
+        "projectPath": "F:\\GitHub-Reps\\WpfPortfolio\\PortfolioApi\\PortfolioApi.csproj",
         "packagesPath": "C:\\Users\\vgver\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\vgver\\IdeaProjects\\WpfPortfolio\\PortfolioApi\\obj\\",
+        "outputPath": "F:\\GitHub-Reps\\WpfPortfolio\\PortfolioApi\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\vgver\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -40,11 +40,15 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[6.0.2, )"
+              "version": "[6.0.0, )"
             },
             "Microsoft.EntityFrameworkCore.InMemory": {
               "target": "Package",
@@ -52,7 +56,13 @@
             },
             "Microsoft.EntityFrameworkCore.Sqlite": {
               "target": "Package",
-              "version": "[6.0.2, )"
+              "version": "[6.0.0, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[6.0.0, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
@@ -77,7 +87,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.200\\RuntimeIdentifierGraph.json"
         }
       }
     }
