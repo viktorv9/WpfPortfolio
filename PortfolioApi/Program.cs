@@ -3,9 +3,10 @@ using PortfolioApi;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+var connectionString = builder.Configuration.GetConnectionString("Images") ?? "Data Source=Images.db";
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddDbContext<ImageDb>(options => options.UseInMemoryDatabase("items"));
+builder.Services.AddSqlite<PortfolioApi.ImageDb>(connectionString);
 builder.Services.AddSwaggerGen(c =>
 {
      c.SwaggerDoc("v1", new OpenApiInfo {

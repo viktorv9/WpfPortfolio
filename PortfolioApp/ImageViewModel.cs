@@ -17,8 +17,8 @@ namespace PortfolioApp
             _ImageList = new List<Image>
             {
                 // todo: database query here to get all images
-                new Image{ImageId = 0, ImageTitle="Stiletto", ImageLink="https://www.instagram.com/p/CX7Ace1oiUk/"},
-                new Image{ImageId = 1, ImageTitle="Ibara Shiozaki", ImageLink="https://www.instagram.com/p/CMHkTBln27E/"}
+                new Image{Id = 0, Title="Stiletto", LinkURL="https://www.instagram.com/p/CX7Ace1oiUk/"},
+                new Image{Id = 1, Title="Ibara Shiozaki", LinkURL="https://www.instagram.com/p/CMHkTBln27E/"}
             };
         }
 

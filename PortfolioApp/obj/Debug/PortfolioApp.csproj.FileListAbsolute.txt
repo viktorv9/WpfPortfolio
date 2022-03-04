@@ -27,3 +27,6 @@ F:\GitHub-Reps\WpfPortfolio\PortfolioApp\obj\Debug\PortfolioApp.csproj.GenerateR
 F:\GitHub-Reps\WpfPortfolio\PortfolioApp\obj\Debug\PortfolioApp.csproj.CoreCompileInputs.cache
 F:\GitHub-Reps\WpfPortfolio\PortfolioApp\obj\Debug\PortfolioApp.exe
 F:\GitHub-Reps\WpfPortfolio\PortfolioApp\obj\Debug\PortfolioApp.pdb
+F:\GitHub-Reps\WpfPortfolio\PortfolioApp\bin\Debug\Newtonsoft.Json.dll
+F:\GitHub-Reps\WpfPortfolio\PortfolioApp\bin\Debug\Newtonsoft.Json.xml
+F:\GitHub-Reps\WpfPortfolio\PortfolioApp\obj\Debug\PortfolioApp.csproj.CopyComplete

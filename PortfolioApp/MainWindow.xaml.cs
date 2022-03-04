@@ -12,6 +12,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Net;
+using Newtonsoft.Json;
 
 namespace PortfolioApp
 {
@@ -20,24 +24,30 @@ namespace PortfolioApp
     /// </summary>
     public partial class MainWindow : Window
     {
-        public List<Image> MyItems { get; set; }
+        public List<Image> Images { get; set; }
+
+        HttpClient client = new HttpClient();
 
         public MainWindow()
         {
             InitializeComponent();
 
+            client.BaseAddress = new Uri("http://localhost:5111/");
 
-            MyItems = new List<Image>();
-            Image newItem = new Image();
-            //newItem.Image = ... load BMP here...;
-            newItem.ImageTitle = "FooBar Icon";
-            MyItems.Add(newItem);
-            Image newItem2 = new Image();
-            //newItem.Image = ... load BMP here...;
-            newItem2.ImageTitle = "Icon22";
-            MyItems.Add(newItem2);
+            GetImages();
+        }
 
-            myListBox.ItemsSource = MyItems;
+        async void GetImages()
+        {
+            List<Image> images = null;
+            HttpResponseMessage response = await client.GetAsync("http://localhost:5111/images");
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                Console.WriteLine(content);
+                images = JsonConvert.DeserializeObject<List<Image>>(content);
+            }
+            myListBox.ItemsSource = images;
         }
     }
 }

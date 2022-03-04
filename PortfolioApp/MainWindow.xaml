@@ -3,7 +3,7 @@
             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"  
             Title="MainWindow" Height="485" Width="525">
 
-    <Grid x:Name="ImageGrid" Height="444" VerticalAlignment="Bottom">
+    <Grid x:Name="ImageGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
@@ -22,7 +22,7 @@
                             <ColumnDefinition Width="170"/>
                             <ColumnDefinition Width="60"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Text="{Binding ImageTitle}" FontSize="22" TextAlignment="Left" Width="150"/>
+                        <TextBlock Text="{Binding Title}" FontSize="22" TextAlignment="Left" Width="150"/>
                         <!--<Image Source="{Binding weatherIconUrl}" Width="40" Height="40"/>-->
                     </Grid>
                 </DataTemplate>
