@@ -14,12 +14,7 @@ namespace PortfolioApp
 
         public ImageViewModel()
         {
-            _ImageList = new List<Image>
-            {
-                // todo: database query here to get all images
-                new Image{Id = 0, Title="Stiletto", LinkURL="https://www.instagram.com/p/CX7Ace1oiUk/"},
-                new Image{Id = 1, Title="Ibara Shiozaki", LinkURL="https://www.instagram.com/p/CMHkTBln27E/"}
-            };
+            _ImageList = new List<Image>();
         }
 
         public IList<Image> Images

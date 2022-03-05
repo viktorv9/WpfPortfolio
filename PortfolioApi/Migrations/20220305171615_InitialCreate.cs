@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -16,7 +17,8 @@ namespace PortfolioApi.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Title = table.Column<string>(type: "TEXT", nullable: false),
                     LinkURL = table.Column<string>(type: "TEXT", nullable: false),
-                    Tags = table.Column<string>(type: "TEXT", nullable: false)
+                    Tags = table.Column<string>(type: "TEXT", nullable: false),
+                    Data = table.Column<byte[]>(type: "BLOB", nullable: false)
                 },
                 constraints: table =>
                 {

@@ -13,6 +13,8 @@ namespace PortfolioApi {
         public string LinkURL { get; set; }
 
         public string Tags { get; set; }
+
+        public byte[] Data { get; set; }
     }
         
     class ImageDb : DbContext
