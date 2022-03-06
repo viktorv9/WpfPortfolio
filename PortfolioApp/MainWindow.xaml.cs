@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,6 +11,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Microsoft.Win32;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Net.Http;
@@ -33,8 +35,6 @@ namespace PortfolioApp
         {
             InitializeComponent();
 
-            client.BaseAddress = new Uri("http://localhost:5111/");
-
             GetImages();
 
             //temp load an image (delete chrissketch en andere testimages later)
@@ -56,8 +56,40 @@ namespace PortfolioApp
             {
                 imageViewModel.Images.Add(DbImage.toImage());
             }
-            imageViewModel.Images.Add(new Image(834794389, "hi", "hi", "hi", bitmap));
             ImageList.ItemsSource = imageViewModel.Images;
+        }
+
+        private async void BtnLoadFromFile_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            if (openFileDialog.ShowDialog() == true)
+            {
+                Uri fileUri = new Uri(openFileDialog.FileName);
+                var bitmap = new BitmapImage(fileUri);
+
+                byte[] data;
+                PngBitmapEncoder encoder = new PngBitmapEncoder();
+                encoder.Frames.Add(BitmapFrame.Create(bitmap));
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    encoder.Save(ms);
+                    data = ms.ToArray();
+                }
+
+                ImageDto image = new ImageDto(null, "Uploaded from app", "tags,test,upload", "https://google.com", data);
+                var json = JsonConvert.SerializeObject(image);
+                var jsonData = new StringContent(json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PostAsync("http://localhost:5111/images", jsonData);
+                Console.WriteLine(response);
+                GetImages();
+                Console.WriteLine(3);
+            }
+        }
+
+        private void Image_Click(object sender, RoutedEventArgs e)
+        {
+            Image clickedImage = (Image)((FrameworkElement)sender).DataContext;
+            Console.WriteLine(clickedImage.Id);
         }
     }
 }

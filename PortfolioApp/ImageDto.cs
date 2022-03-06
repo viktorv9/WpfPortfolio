@@ -11,9 +11,9 @@ namespace PortfolioApp
 {
     public class ImageDto
     {
-        public ImageDto(int id, string title, string tags, string linkURL, byte[] data)
+        public ImageDto(int? id, string title, string tags, string linkURL, byte[] data)
         {
-            Id = id;
+            if (id.HasValue) Id = id.Value;
             Title = title;
             Tags = tags;
             LinkURL = linkURL;
