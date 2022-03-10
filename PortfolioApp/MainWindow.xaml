@@ -15,7 +15,7 @@
     <ScrollViewer>
         <StackPanel>
             <WrapPanel Margin="10" HorizontalAlignment="Center">
-                <Button Name="btnLoadFromFile" Margin="0,0,20,0" Click="BtnLoadFromFile_Click">Load from File...</Button>
+                <Button Name="btnLoadFromFile" Margin="0,0,20,0" Click="BtnUpload_Click">Upload Image</Button>
             </WrapPanel>
             <Grid x:Name="ImageGrid">
                 <Grid.RowDefinitions>

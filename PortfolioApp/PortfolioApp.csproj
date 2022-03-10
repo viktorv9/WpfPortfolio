@@ -40,6 +40,11 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Linq, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Linq.4.3.0\lib\net463\System.Linq.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -67,6 +72,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="BindableBase.cs" />
+    <Compile Include="Tag.cs" />
     <Compile Include="ImageDto.cs" />
     <Compile Include="ImageViewModel.cs" />
     <Compile Include="Image.cs" />

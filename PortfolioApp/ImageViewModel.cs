@@ -11,6 +11,7 @@ namespace PortfolioApp
     class ImageViewModel : BindableBase
     {
         private IList<Image> _ImageList;
+        private IList<Tag> _TagList;
 
         public ImageViewModel()
         {
@@ -21,6 +22,11 @@ namespace PortfolioApp
         {
             get { return _ImageList; }
             set { _ImageList = value; }
+        }
+        public IList<Tag> Tags
+        {
+            get { return _TagList; }
+            set { _TagList = value; }
         }
     }
 }

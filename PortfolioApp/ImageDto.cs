@@ -39,6 +39,7 @@ namespace PortfolioApp
                 image.CacheOption = BitmapCacheOption.OnLoad;
                 image.StreamSource = ms;
                 image.EndInit();
+                image.Freeze();
             }
             return new Image(Id, Title, Tags, LinkURL, image);
         }

@@ -35,31 +35,48 @@ namespace PortfolioApp
         {
             InitializeComponent();
 
-            GetImages();
-
-            //temp load an image (delete chrissketch en andere testimages later)
-            bitmap.BeginInit();
-            bitmap.UriSource = new Uri("F:/GitHub-Reps/WpfPortfolio/PortfolioApp/chrissketch.png");
-            bitmap.EndInit();
+            fetchImages();
         }
 
-        async void GetImages()
+        private async void fetchImages()
         {
-            HttpResponseMessage response = await client.GetAsync("http://localhost:5111/images");
-            List<ImageDto> DbImages = new List<ImageDto>();
-            if (response.IsSuccessStatusCode)
-            {
-                var content = await response.Content.ReadAsStringAsync();
-                DbImages = JsonConvert.DeserializeObject<List<ImageDto>>(content);
-            }
-            foreach(ImageDto DbImage in DbImages)
-            {
-                imageViewModel.Images.Add(DbImage.toImage());
-            }
+            imageViewModel.Images = await GetImages();
+            imageViewModel.Tags = getTagsFromImages(imageViewModel.Images);
             ImageList.ItemsSource = imageViewModel.Images;
         }
 
-        private async void BtnLoadFromFile_Click(object sender, RoutedEventArgs e)
+        async Task<IList<Image>> GetImages()
+        {
+            return await Task.Run(async () =>
+            {
+                HttpResponseMessage response = await client.GetAsync("http://localhost:5111/images");
+                List<ImageDto> DbImages = new List<ImageDto>();
+                if (response.IsSuccessStatusCode)
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                    DbImages = JsonConvert.DeserializeObject<List<ImageDto>>(content);
+                }
+                var images = new List<Image>();
+                foreach (ImageDto DbImage in DbImages)
+                {
+                    images.Add(DbImage.toImage());
+                }
+                return images;
+            });
+        }
+
+        private List<Tag> getTagsFromImages(IList<Image> images)
+        {
+            List<Tag> tagList = new List<Tag>();
+            foreach (Image image in images)
+            {
+                string[] tags = image.Tags.Split(',');
+                tagList.AddRange(tags.Select(item => new Tag(item)).ToList());
+            }
+            return tagList;
+        }
+
+        private async void BtnUpload_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             if (openFileDialog.ShowDialog() == true)
@@ -80,9 +97,8 @@ namespace PortfolioApp
                 var json = JsonConvert.SerializeObject(image);
                 var jsonData = new StringContent(json, Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await client.PostAsync("http://localhost:5111/images", jsonData);
-                Console.WriteLine(response);
-                GetImages();
-                Console.WriteLine(3);
+                imageViewModel.Images = await GetImages();
+                ImageList.ItemsSource = imageViewModel.Images;
             }
         }
 
