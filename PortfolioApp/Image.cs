@@ -11,7 +11,7 @@ namespace PortfolioApp
 {
     public class Image
     {
-        public Image(int id, string title, string tags, string linkURL, BitmapImage bitmapImg)
+        public Image(int id, string title, List<string> tags, string linkURL, BitmapImage bitmapImg)
         {
             Id = id;
             Title = title;
@@ -24,7 +24,7 @@ namespace PortfolioApp
 
         public string Title { get; set; }
 
-        public string Tags { get; set; }
+        public List<string> Tags { get; set; }
 
         public string LinkURL { get; set; }
 

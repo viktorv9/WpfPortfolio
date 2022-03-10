@@ -67,13 +67,12 @@ namespace PortfolioApp
 
         private List<Tag> getTagsFromImages(IList<Image> images)
         {
-            List<Tag> tagList = new List<Tag>();
+            List<string> tagnames = new List<string>();
             foreach (Image image in images)
             {
-                string[] tags = image.Tags.Split(',');
-                tagList.AddRange(tags.Select(item => new Tag(item)).ToList());
+                tagnames.AddRange(image.Tags);
             }
-            return tagList;
+            return tagnames.Distinct().Select(tagname => new Tag(tagname)).ToList();
         }
 
         private async void BtnUpload_Click(object sender, RoutedEventArgs e)

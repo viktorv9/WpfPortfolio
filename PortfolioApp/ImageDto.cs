@@ -33,6 +33,7 @@ namespace PortfolioApp
         public Image toImage()
         {
             var image = new BitmapImage();
+            List<string> taglist;
             using (var ms = new System.IO.MemoryStream(Data))
             {
                 image.BeginInit();
@@ -41,7 +42,14 @@ namespace PortfolioApp
                 image.EndInit();
                 image.Freeze();
             }
-            return new Image(Id, Title, Tags, LinkURL, image);
+            if (Tags != "")
+            {
+                taglist = Tags.Split(',').ToList();
+            } else
+            {
+                taglist = new List<string>();
+            }
+            return new Image(Id, Title, taglist, LinkURL, image);
         }
     }
 }
