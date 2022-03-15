@@ -26,32 +26,34 @@ namespace PortfolioApp
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class ImageView : Window
     {
         ImageViewModel imageViewModel = new ImageViewModel();
 
-        public MainWindow()
+        public ImageView()
         {
             InitializeComponent();
 
             ImageList.ItemsSource = imageViewModel.Images;
-            fetchImages();
+            imageViewModel.fetchImages();
         }
 
-        private async void fetchImages()
+        private void Upload_Click(object sender, RoutedEventArgs e)
         {
-            imageViewModel.AddImages(await imageViewModel.GetImages());
-            imageViewModel.Tags = getTagsFromImages(imageViewModel.Images);
+            imageViewModel.UploadImage();
         }
 
-        private BindingList<Tag> getTagsFromImages(BindingList<Image> images)
+        private void Delete_Click(object sender, RoutedEventArgs e)
         {
-            List<string> tagnames = new List<string>();
-            foreach (Image image in images)
-            {
-                tagnames.AddRange(image.Tags);
-            }
-            return new BindingList<Tag>(tagnames.Distinct().Select(tagname => new Tag(tagname)).ToList());
+            Image selectedImage = (Image)ImageList.SelectedItem;
+            if (selectedImage != null) imageViewModel.DeleteImage(selectedImage);
+            else MessageBox.Show("No image selected!");
+        }
+
+        private void Image_Click(object sender, RoutedEventArgs e)
+        {
+            Image clickedImage = (Image)((FrameworkElement)sender).DataContext;
+            Console.WriteLine(clickedImage.Id);
         }
     }
 }

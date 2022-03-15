@@ -1396,11 +1396,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\vgver\\IdeaProjects\\WpfPortfolio\\PortfolioApi\\PortfolioApi.csproj",
+      "projectUniqueName": "F:\\GitHub-Reps\\WpfPortfolio\\PortfolioApi\\PortfolioApi.csproj",
       "projectName": "PortfolioApi",
-      "projectPath": "C:\\Users\\vgver\\IdeaProjects\\WpfPortfolio\\PortfolioApi\\PortfolioApi.csproj",
+      "projectPath": "F:\\GitHub-Reps\\WpfPortfolio\\PortfolioApi\\PortfolioApi.csproj",
       "packagesPath": "C:\\Users\\vgver\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\vgver\\IdeaProjects\\WpfPortfolio\\PortfolioApi\\obj\\",
+      "outputPath": "F:\\GitHub-Reps\\WpfPortfolio\\PortfolioApi\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\vgver\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -1479,7 +1479,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.101\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.201\\RuntimeIdentifierGraph.json"
       }
     }
   }

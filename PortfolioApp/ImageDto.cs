@@ -30,7 +30,7 @@ namespace PortfolioApp
 
         public byte[] Data { get; set; }
 
-        public Image toImage()
+        public Image ToImage()
         {
             var image = new BitmapImage();
             List<string> taglist;

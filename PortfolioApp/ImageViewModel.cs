@@ -23,7 +23,7 @@ using System.ComponentModel;
 
 namespace PortfolioApp
 {
-    class ImageViewModel : BindableBase
+    class ImageViewModel
     {
         private HttpClient client = new HttpClient();
 
@@ -48,7 +48,44 @@ namespace PortfolioApp
             get { return _TagList; }
             set { _TagList = value; }
         }
-        private async void UploadImage()
+
+        public  async void fetchImages()
+        {
+            AddImages(await GetImages());
+            Tags = getTagsFromImages(Images);
+        }
+
+        public async Task<BindingList<Image>> GetImages()
+        {
+            return await Task.Run(async () =>
+            {
+                HttpResponseMessage response = await client.GetAsync("http://localhost:5111/images");
+                BindingList<ImageDto> DbImages = new BindingList<ImageDto>();
+                if (response.IsSuccessStatusCode)
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                    DbImages = JsonConvert.DeserializeObject<BindingList<ImageDto>>(content);
+                }
+                var images = new BindingList<Image>();
+                foreach (ImageDto DbImage in DbImages)
+                {
+                    images.Add(DbImage.ToImage());
+                }
+                return images;
+            });
+        }
+
+        private BindingList<Tag> getTagsFromImages(BindingList<Image> images)
+        {
+            List<string> tagnames = new List<string>();
+            foreach (Image image in images)
+            {
+                tagnames.AddRange(image.Tags);
+            }
+            return new BindingList<Tag>(tagnames.Distinct().Select(tagname => new Tag(tagname)).ToList());
+        }
+
+        public async void UploadImage()
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             if (openFileDialog.ShowDialog() == true)
@@ -69,53 +106,16 @@ namespace PortfolioApp
                 var json = JsonConvert.SerializeObject(image);
                 var jsonData = new StringContent(json, Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await client.PostAsync("http://localhost:5111/images", jsonData);
-                Images = await GetImages();
+                Images.Add(image.ToImage());
             }
         }
-
-        public async Task<BindingList<Image>> GetImages()
+        public async void DeleteImage(Image image)
         {
-            return await Task.Run(async () =>
-            {
-                HttpResponseMessage response = await client.GetAsync("http://localhost:5111/images");
-                BindingList<ImageDto> DbImages = new BindingList<ImageDto>();
-                if (response.IsSuccessStatusCode)
-                {
-                    var content = await response.Content.ReadAsStringAsync();
-                    DbImages = JsonConvert.DeserializeObject<BindingList<ImageDto>>(content);
-                }
-                var images = new BindingList<Image>();
-                foreach (ImageDto DbImage in DbImages)
-                {
-                    images.Add(DbImage.toImage());
-                }
-                return images;
-            });
+            HttpResponseMessage response = await client.DeleteAsync("http://localhost:5111/images/" + image.Id);
+            Images.Remove(image);
         }
 
-        private ICommand _saveCommand;
-
-        public ICommand SaveCommand
-        {
-            get
-            {
-                if (_saveCommand == null)
-                {
-                    _saveCommand = new RelayCommand(
-                        param => this.UploadImage(),
-                        param => this.CanSave()
-                    );
-                }
-                return _saveCommand;
-            }
-        }
-
-        private bool CanSave()
-        {
-            return true;
-        }
-
-        public void AddImages(BindingList<Image> list)
+            public void AddImages(BindingList<Image> list)
         {
             foreach (Image img in list)
             {
