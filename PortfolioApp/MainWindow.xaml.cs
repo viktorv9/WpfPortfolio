@@ -19,6 +19,7 @@ using System.Net.Http.Headers;
 using System.Net;
 using System.Drawing;
 using Newtonsoft.Json;
+using System.ComponentModel;
 
 namespace PortfolioApp
 {
@@ -27,84 +28,30 @@ namespace PortfolioApp
     /// </summary>
     public partial class MainWindow : Window
     {
-        HttpClient client = new HttpClient();
         ImageViewModel imageViewModel = new ImageViewModel();
-        BitmapImage bitmap = new BitmapImage();
 
         public MainWindow()
         {
             InitializeComponent();
 
+            ImageList.ItemsSource = imageViewModel.Images;
             fetchImages();
         }
 
         private async void fetchImages()
         {
-            imageViewModel.Images = await GetImages();
+            imageViewModel.AddImages(await imageViewModel.GetImages());
             imageViewModel.Tags = getTagsFromImages(imageViewModel.Images);
-            ImageList.ItemsSource = imageViewModel.Images;
         }
 
-        async Task<IList<Image>> GetImages()
-        {
-            return await Task.Run(async () =>
-            {
-                HttpResponseMessage response = await client.GetAsync("http://localhost:5111/images");
-                List<ImageDto> DbImages = new List<ImageDto>();
-                if (response.IsSuccessStatusCode)
-                {
-                    var content = await response.Content.ReadAsStringAsync();
-                    DbImages = JsonConvert.DeserializeObject<List<ImageDto>>(content);
-                }
-                var images = new List<Image>();
-                foreach (ImageDto DbImage in DbImages)
-                {
-                    images.Add(DbImage.toImage());
-                }
-                return images;
-            });
-        }
-
-        private List<Tag> getTagsFromImages(IList<Image> images)
+        private BindingList<Tag> getTagsFromImages(BindingList<Image> images)
         {
             List<string> tagnames = new List<string>();
             foreach (Image image in images)
             {
                 tagnames.AddRange(image.Tags);
             }
-            return tagnames.Distinct().Select(tagname => new Tag(tagname)).ToList();
-        }
-
-        private async void BtnUpload_Click(object sender, RoutedEventArgs e)
-        {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            if (openFileDialog.ShowDialog() == true)
-            {
-                Uri fileUri = new Uri(openFileDialog.FileName);
-                var bitmap = new BitmapImage(fileUri);
-
-                byte[] data;
-                PngBitmapEncoder encoder = new PngBitmapEncoder();
-                encoder.Frames.Add(BitmapFrame.Create(bitmap));
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    encoder.Save(ms);
-                    data = ms.ToArray();
-                }
-
-                ImageDto image = new ImageDto(null, "Uploaded from app", "tags,test,upload", "https://google.com", data);
-                var json = JsonConvert.SerializeObject(image);
-                var jsonData = new StringContent(json, Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await client.PostAsync("http://localhost:5111/images", jsonData);
-                imageViewModel.Images = await GetImages();
-                ImageList.ItemsSource = imageViewModel.Images;
-            }
-        }
-
-        private void Image_Click(object sender, RoutedEventArgs e)
-        {
-            Image clickedImage = (Image)((FrameworkElement)sender).DataContext;
-            Console.WriteLine(clickedImage.Id);
+            return new BindingList<Tag>(tagnames.Distinct().Select(tagname => new Tag(tagname)).ToList());
         }
     }
 }

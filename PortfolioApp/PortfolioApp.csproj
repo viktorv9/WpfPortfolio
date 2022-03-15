@@ -72,6 +72,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="BindableBase.cs" />
+    <Compile Include="CommandHandler.cs" />
     <Compile Include="Tag.cs" />
     <Compile Include="ImageDto.cs" />
     <Compile Include="ImageViewModel.cs" />
