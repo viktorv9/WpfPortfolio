@@ -17,10 +17,8 @@ F:\GitHub-Reps\WpfPortfolio\PortfolioApp\bin\Debug\PortfolioApp.exe.config
 F:\GitHub-Reps\WpfPortfolio\PortfolioApp\bin\Debug\PortfolioApp.exe
 F:\GitHub-Reps\WpfPortfolio\PortfolioApp\bin\Debug\PortfolioApp.pdb
 F:\GitHub-Reps\WpfPortfolio\PortfolioApp\obj\Debug\PortfolioApp.csprojAssemblyReference.cache
-F:\GitHub-Reps\WpfPortfolio\PortfolioApp\obj\Debug\MainWindow.g.cs
 F:\GitHub-Reps\WpfPortfolio\PortfolioApp\obj\Debug\App.g.cs
 F:\GitHub-Reps\WpfPortfolio\PortfolioApp\obj\Debug\PortfolioApp_MarkupCompile.cache
-F:\GitHub-Reps\WpfPortfolio\PortfolioApp\obj\Debug\MainWindow.baml
 F:\GitHub-Reps\WpfPortfolio\PortfolioApp\obj\Debug\PortfolioApp.g.resources
 F:\GitHub-Reps\WpfPortfolio\PortfolioApp\obj\Debug\PortfolioApp.Properties.Resources.resources
 F:\GitHub-Reps\WpfPortfolio\PortfolioApp\obj\Debug\PortfolioApp.csproj.GenerateResource.cache
@@ -48,3 +46,7 @@ C:\Users\vgver\IdeaProjects\WpfPortfolio\PortfolioApp\obj\Debug\PortfolioApp.csp
 C:\Users\vgver\IdeaProjects\WpfPortfolio\PortfolioApp\obj\Debug\PortfolioApp.csproj.CopyComplete
 C:\Users\vgver\IdeaProjects\WpfPortfolio\PortfolioApp\obj\Debug\PortfolioApp.exe
 C:\Users\vgver\IdeaProjects\WpfPortfolio\PortfolioApp\obj\Debug\PortfolioApp.pdb
+F:\GitHub-Reps\WpfPortfolio\PortfolioApp\obj\Debug\GeneratedInternalTypeHelper.g.cs
+F:\GitHub-Reps\WpfPortfolio\PortfolioApp\obj\Debug\PortfolioApp_MarkupCompile.lref
+F:\GitHub-Reps\WpfPortfolio\PortfolioApp\obj\Debug\MainWindow.g.cs
+F:\GitHub-Reps\WpfPortfolio\PortfolioApp\obj\Debug\MainWindow.baml

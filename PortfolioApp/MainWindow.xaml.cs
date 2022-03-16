@@ -23,9 +23,6 @@ using System.ComponentModel;
 
 namespace PortfolioApp
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class ImageView : Window
     {
         ImageViewModel imageViewModel = new ImageViewModel();
@@ -50,10 +47,13 @@ namespace PortfolioApp
             else MessageBox.Show("No image selected!");
         }
 
-        private void Image_Click(object sender, RoutedEventArgs e)
+        private void Image_Click(object sender, MouseButtonEventArgs e)
         {
             Image clickedImage = (Image)((FrameworkElement)sender).DataContext;
-            Console.WriteLine(clickedImage.Id);
+            if (e.ClickCount == 2 && clickedImage.LinkURL != null)
+            {
+                System.Diagnostics.Process.Start(clickedImage.LinkURL);
+            }
         }
     }
 }
