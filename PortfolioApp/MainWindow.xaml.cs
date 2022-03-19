@@ -30,27 +30,12 @@ namespace PortfolioApp
         public ImageView()
         {
             InitializeComponent();
-
-            ImageList.ItemsSource = imageViewModel.Images;
-            imageViewModel.fetchImages();
-        }
-
-        private void Upload_Click(object sender, RoutedEventArgs e)
-        {
-            imageViewModel.UploadImage();
-        }
-
-        private void Delete_Click(object sender, RoutedEventArgs e)
-        {
-            Image selectedImage = (Image)ImageList.SelectedItem;
-            if (selectedImage != null) imageViewModel.DeleteImage(selectedImage);
-            else MessageBox.Show("No image selected!");
         }
 
         private void Image_Click(object sender, MouseButtonEventArgs e)
         {
             Image clickedImage = (Image)((FrameworkElement)sender).DataContext;
-            if (e.ClickCount == 2 && clickedImage.LinkURL != null)
+            if (e.ClickCount == 2 && !(clickedImage.LinkURL == null || clickedImage.LinkURL == ""))
             {
                 System.Diagnostics.Process.Start(clickedImage.LinkURL);
             }

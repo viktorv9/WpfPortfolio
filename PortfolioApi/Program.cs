@@ -23,32 +23,6 @@ app.UseSwaggerUI(c =>
    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Images API V1");
 });
 
-app.MapGet("/", async (ImageDb db) => {
-
-    BitmapImage bitmap = new BitmapImage();
-    //temp load an image (delete chrissketch later)
-    bitmap.BeginInit();
-    bitmap.UriSource = new Uri("F:/GitHub-Reps/WpfPortfolio/PortfolioApp/blackwhite.png");
-    bitmap.EndInit();
-    
-    byte[] data;
-    PngBitmapEncoder encoder = new PngBitmapEncoder();
-    encoder.Frames.Add(BitmapFrame.Create(bitmap));
-    using(MemoryStream ms = new MemoryStream())
-    {
-        encoder.Save(ms);
-        data = ms.ToArray();
-    }
-
-    var testimg = new Image();
-    testimg.Title = "testimg";
-    testimg.Tags = "";
-    testimg.LinkURL = "";
-    testimg.Data = data;
-    await db.Images.AddAsync(testimg);
-    await db.SaveChangesAsync();
-    return "App started, test image inserted.";
-});
 app.MapGet("/images", async (ImageDb db) => await db.Images.ToListAsync());
 
 app.MapPost("/images", async (ImageDb db, Image image) =>

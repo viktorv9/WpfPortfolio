@@ -9,10 +9,10 @@ using System.Windows.Media.Imaging;
 
 namespace PortfolioApp
 {
-    public class Tag //: INotifyPropertyChanged
+    public class Tag : INotifyPropertyChanged
     {
 
-        //public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public Tag(string name)
         {
@@ -26,13 +26,12 @@ namespace PortfolioApp
         public void Toggle()
         {
             Active = !Active;
-            //OnPropertyChanged("Active");
+            OnPropertyChanged("Active");
         }
 
-        //void OnPropertyChanged(string propertyName)
-        //{
-        //    if (PropertyChanged != null)
-        //        PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-        //}
+        void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

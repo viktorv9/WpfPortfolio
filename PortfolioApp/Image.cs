@@ -9,7 +9,7 @@ using System.Windows.Media.Imaging;
 
 namespace PortfolioApp
 {
-    public class Image
+    public class Image : INotifyPropertyChanged
     {
         public Image(int id, string title, List<string> tags, string linkURL, BitmapImage bitmapImg)
         {
@@ -29,5 +29,12 @@ namespace PortfolioApp
         public string LinkURL { get; set; }
 
         public BitmapImage BitmapImg { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void NotifyPropetyChanged(string propertyName)
+        {
+            PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

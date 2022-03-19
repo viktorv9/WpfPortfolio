@@ -20,6 +20,8 @@ using System.Net;
 using System.Drawing;
 using Newtonsoft.Json;
 using System.ComponentModel;
+using System.Collections.ObjectModel;
+using PortfolioApp.Commands;
 
 namespace PortfolioApp
 {
@@ -27,32 +29,43 @@ namespace PortfolioApp
     {
         private HttpClient client = new HttpClient();
 
-        private BindingList<Image> _ImageList;
-        private BindingList<Tag> _TagList;
+        private BindingList<Image> _Images;
+        private BindingList<Tag> _Tags;
+
+        public IDelegateCommand DeleteImageCommand { protected set; get; }
+        public IDelegateCommand UploadImageCommand { protected set; get; }
 
         public ImageViewModel()
         {
-            _ImageList = new BindingList<Image>();
+            _Images = new BindingList<Image>();
+            _Tags = new BindingList<Tag>();
+            DeleteImageCommand = new DelegateCommand(DeleteImage);
+            UploadImageCommand = new DelegateCommand(UploadImage);
+
+            FetchImages();
         }
 
         public BindingList<Image> Images
         {
-            get { return _ImageList; }
+            get { return _Images; }
             set
             {
-                _ImageList = value;
+                _Images = value;
             }
         }
+
         public BindingList<Tag> Tags
         {
-            get { return _TagList; }
-            set { _TagList = value; }
+            get { return _Tags; }
+            set { _Tags = value; }
         }
 
-        public  async void fetchImages()
+        public  async void FetchImages()
         {
+            Images.Clear();
+            Tags.Clear();
             AddImages(await GetImages());
-            Tags = getTagsFromImages(Images);
+            AddTags(GetTagsFromImages(Images));
         }
 
         public async Task<BindingList<Image>> GetImages()
@@ -75,7 +88,7 @@ namespace PortfolioApp
             });
         }
 
-        private BindingList<Tag> getTagsFromImages(BindingList<Image> images)
+        private BindingList<Tag> GetTagsFromImages(BindingList<Image> images)
         {
             List<string> tagnames = new List<string>();
             foreach (Image image in images)
@@ -85,7 +98,7 @@ namespace PortfolioApp
             return new BindingList<Tag>(tagnames.Distinct().Select(tagname => new Tag(tagname)).ToList());
         }
 
-        public async void UploadImage()
+        public async void UploadImage(object parameter)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             if (openFileDialog.ShowDialog() == true)
@@ -106,20 +119,30 @@ namespace PortfolioApp
                 var json = JsonConvert.SerializeObject(image);
                 var jsonData = new StringContent(json, Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await client.PostAsync("http://localhost:5111/images", jsonData);
-                Images.Add(image.ToImage());
+                FetchImages();
             }
         }
-        public async void DeleteImage(Image image)
+
+        public async void DeleteImage(object parameter)
         {
-            HttpResponseMessage response = await client.DeleteAsync("http://localhost:5111/images/" + image.Id);
-            Images.Remove(image);
+            Image selectedImage = (Image)parameter;
+            HttpResponseMessage response = await client.DeleteAsync("http://localhost:5111/images/" + selectedImage.Id);
+            FetchImages();
         }
 
-            public void AddImages(BindingList<Image> list)
+        public void AddImages(BindingList<Image> list)
         {
             foreach (Image img in list)
             {
                 Images.Add(img);
+            }
+        }
+
+        public void AddTags(BindingList<Tag> list)
+        {
+            foreach (Tag tg in list)
+            {
+                Tags.Add(tg);
             }
         }
     }

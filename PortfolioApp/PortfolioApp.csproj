@@ -71,6 +71,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Commands\DelegateCommand.cs" />
+    <Compile Include="Commands\IDelegateCommand.cs" />
     <Compile Include="Tag.cs" />
     <Compile Include="ImageDto.cs" />
     <Compile Include="ImageViewModel.cs" />
