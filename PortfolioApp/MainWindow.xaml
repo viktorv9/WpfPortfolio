@@ -15,9 +15,7 @@
         </DataTemplate>
 
         <DataTemplate x:Key="TagTemplate">
-            <WrapPanel Margin="5" Width="50">
-                <TextBlock Text="{Binding Name}"/>
-            </WrapPanel>
+            <Button Content="{Binding Name}" Command="{Binding ElementName=TagsList, Path=DataContext.ToggleTagCommand}" CommandParameter="{Binding}"  Margin="5" Width="50"/>
         </DataTemplate>
 
         <Style TargetType="Button" x:Key="ButtonBackground">
@@ -41,7 +39,7 @@
 
     <ScrollViewer>
         <StackPanel>
-            <WrapPanel Margin="10" HorizontalAlignment="Center">
+            <WrapPanel Margin="10, 10, 10, 0" HorizontalAlignment="Center">
                 <Button Name="btnUpload" Command="{Binding UploadImageCommand}" Style="{StaticResource ButtonBackground}" Content="Upload Image">
                     <Button.Resources>
                         <Style TargetType="Border">
@@ -57,13 +55,15 @@
                     </Button.Resources>
                 </Button>
             </WrapPanel>
-            <ListBox x:Name="TagsList" ItemsSource="{Binding Tags}" ItemTemplate="{StaticResource TagTemplate}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                <ListBox.ItemsPanel>
+            
+            <ItemsControl x:Name="TagsList" ItemsSource="{Binding Tags}" ItemTemplate="{StaticResource TagTemplate}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="10">
+                <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <WrapPanel IsItemsHost="True" />
                     </ItemsPanelTemplate>
-                </ListBox.ItemsPanel>
-            </ListBox>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+            
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>

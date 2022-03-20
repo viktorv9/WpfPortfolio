@@ -27,11 +27,14 @@ namespace PortfolioApp
 {
     class ImageViewModel
     {
-        private HttpClient client = new HttpClient();
+        private readonly HttpClient client = new HttpClient();
 
         private BindingList<Image> _Images;
         private BindingList<Tag> _Tags;
 
+        private List<Image> prefilteredImageList = new List<Image>();
+
+        public IDelegateCommand ToggleTagCommand { protected set; get; }
         public IDelegateCommand DeleteImageCommand { protected set; get; }
         public IDelegateCommand UploadImageCommand { protected set; get; }
 
@@ -39,6 +42,7 @@ namespace PortfolioApp
         {
             _Images = new BindingList<Image>();
             _Tags = new BindingList<Tag>();
+            ToggleTagCommand = new DelegateCommand(ToggleTag);
             DeleteImageCommand = new DelegateCommand(DeleteImage);
             UploadImageCommand = new DelegateCommand(UploadImage);
 
@@ -60,15 +64,16 @@ namespace PortfolioApp
             set { _Tags = value; }
         }
 
-        public  async void FetchImages()
+        private async void FetchImages()
         {
             Images.Clear();
             Tags.Clear();
             AddImages(await GetImages());
             AddTags(GetTagsFromImages(Images));
+            prefilteredImageList = new List<Image>(Images);
         }
 
-        public async Task<BindingList<Image>> GetImages()
+        private async Task<BindingList<Image>> GetImages()
         {
             return await Task.Run(async () =>
             {
@@ -98,7 +103,7 @@ namespace PortfolioApp
             return new BindingList<Tag>(tagnames.Distinct().Select(tagname => new Tag(tagname)).ToList());
         }
 
-        public async void UploadImage(object parameter)
+        private async void UploadImage(object parameter)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             if (openFileDialog.ShowDialog() == true)
@@ -115,7 +120,7 @@ namespace PortfolioApp
                     data = ms.ToArray();
                 }
 
-                ImageDto image = new ImageDto(null, "Uploaded from app", "tags,test,upload", "https://google.com", data);
+                ImageDto image = new ImageDto(null, "Tag: aaaa en bbbb", "bbbb,aaaa", "https://google.com", data);
                 var json = JsonConvert.SerializeObject(image);
                 var jsonData = new StringContent(json, Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await client.PostAsync("http://localhost:5111/images", jsonData);
@@ -123,14 +128,38 @@ namespace PortfolioApp
             }
         }
 
-        public async void DeleteImage(object parameter)
+        private async void DeleteImage(object parameter)
         {
             Image selectedImage = (Image)parameter;
             HttpResponseMessage response = await client.DeleteAsync("http://localhost:5111/images/" + selectedImage.Id);
             FetchImages();
         }
 
-        public void AddImages(BindingList<Image> list)
+        private void ToggleTag(object parameter)
+        {
+
+            Tag clickedTag = (Tag)parameter;
+            clickedTag.Toggle();
+            BindingList<Image> filteredImages = sortImagesByTags(Tags);
+            Images.Clear();
+            AddImages(filteredImages);
+        }
+
+        private BindingList<Image> sortImagesByTags(BindingList<Tag> tagList)
+        {
+            List<Tag> activeTagList = tagList.Where(tag => tag.Active).ToList();
+            if (activeTagList.Count() == 0) return new BindingList<Image>(prefilteredImageList);
+
+            List<string> activeTagNames = activeTagList.Select(tag => tag.Name).ToList();
+            List<Image> filteredImageList = new List<Image>();
+            foreach (Image image in prefilteredImageList)
+            {
+                if (activeTagNames.Any(tag => image.Tags.Contains(tag))) filteredImageList.Add(image);
+            }
+            return new BindingList<Image>(filteredImageList);
+        }
+
+        private void AddImages(BindingList<Image> list)
         {
             foreach (Image img in list)
             {
@@ -138,7 +167,7 @@ namespace PortfolioApp
             }
         }
 
-        public void AddTags(BindingList<Tag> list)
+        private void AddTags(BindingList<Tag> list)
         {
             foreach (Tag tg in list)
             {
