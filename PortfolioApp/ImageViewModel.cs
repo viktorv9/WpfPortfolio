@@ -131,8 +131,14 @@ namespace PortfolioApp
         private async void DeleteImage(object parameter)
         {
             Image selectedImage = (Image)parameter;
-            HttpResponseMessage response = await client.DeleteAsync("http://localhost:5111/images/" + selectedImage.Id);
-            FetchImages();
+            if (selectedImage != null)
+            {
+                HttpResponseMessage response = await client.DeleteAsync("http://localhost:5111/images/" + selectedImage.Id);
+                FetchImages();
+            } else
+            {
+                MessageBox.Show("No image selected");
+            }
         }
 
         private void ToggleTag(object parameter)
