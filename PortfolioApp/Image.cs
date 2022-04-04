@@ -32,6 +32,19 @@ namespace PortfolioApp
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        public string TagsAsString
+        {
+            get
+            {
+                string result = "Tags: ";
+                foreach (string tag in Tags)
+                {
+                    result = result + tag + ", ";
+                }
+                return result.Substring(0, result.Length - 2);
+            }
+        }
+
         public void NotifyPropetyChanged(string propertyName)
         {
             PropertyChanged(this, new PropertyChangedEventArgs(propertyName));

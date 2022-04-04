@@ -120,7 +120,7 @@ namespace PortfolioApp
                     data = ms.ToArray();
                 }
 
-                ImageDto image = new ImageDto(null, "Tag: aaaa en bbbb", "bbbb,aaaa", "https://google.com", data);
+                ImageDto image = new ImageDto(null, System.IO.Path.GetFileNameWithoutExtension(openFileDialog.FileName), "aaaa,bbbb", "https://www.instagram.com/p/CMHkTBln27E/", data);
                 var json = JsonConvert.SerializeObject(image);
                 var jsonData = new StringContent(json, Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await client.PostAsync("http://localhost:5111/images", jsonData);
